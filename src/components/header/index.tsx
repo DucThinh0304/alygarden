@@ -1,7 +1,13 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useCycle, useScroll } from "framer-motion";
+import {
+  motion,
+  useCycle,
+  useScroll,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 import {
   buttonVariant,
   spanVariantBefore,
@@ -12,11 +18,42 @@ import {
   translate,
 } from "./anim";
 import "@radix-ui/themes/styles.css";
-
 const Header = () => {
   // HOOK
   const [isToggled, toggle] = useCycle(false, true);
   const { scrollYProgress } = useScroll();
+
+  const headerProgress = useTransform(
+    scrollYProgress,
+    [0, 0.29, 0.3],
+    [0, 0, 1]
+  );
+  const smoothHeaderProgress = useSpring(headerProgress, { restSpeed: 1 });
+  const headerPadding = useTransform(
+    smoothHeaderProgress,
+    [0, 1],
+    ["0px 20px", "20px 20px"]
+  );
+  const navBackdrop = useTransform(
+    smoothHeaderProgress,
+    [0, 1],
+    ["blur(0px)", "blur(16px)"]
+  );
+  const navBackgroundColor = useTransform(
+    smoothHeaderProgress,
+    [0, 1],
+    ["rgba(255,255,255,0.0)", "rgba(255,255,255,0.5)"]
+  );
+  const buttonColor = useTransform(
+    smoothHeaderProgress,
+    [0, 1],
+    ["#fff", "#000"]
+  );
+  const buttonColorReverse = useTransform(
+    smoothHeaderProgress,
+    [0, 1],
+    ["#000", "#fff"]
+  );
 
   // FUNCTION
   const getChars = (word: string) => {
@@ -40,8 +77,17 @@ const Header = () => {
 
   //RENDER
   return (
-    <motion.header className="w-[calc(100%)] fixed bottom-0 h-[110px] p-[20px] md:top-0">
-      <nav className="flex flex-wrap items-center justify-between px-[0.625rem] py-0 bg-[rgba(255,255,255,0.5)] w-[100%] h-[100%] backdrop-blur-lg rounded-xl">
+    <motion.header
+      className="w-[calc(100%)] fixed bottom-0 h-[110px] md:top-0"
+      style={{ padding: headerPadding }}
+    >
+      <motion.nav
+        className="flex flex-wrap items-center justify-between px-[0.625rem] py-0 bg-[rgba(255,255,255,0.0)] w-[100%] h-[100%] rounded-xl"
+        style={{
+          backdropFilter: navBackdrop,
+          background: navBackgroundColor,
+        }}
+      >
         {/* BUTTON */}
         <motion.button
           variants={buttonVariant}
@@ -52,9 +98,10 @@ const Header = () => {
           onClick={() => toggle()}
         >
           {/* CIRCLE */}
-          <span className="inline-flex relative items-center w-[48px] h-[48px]">
+          <span className="inline-flex relative items-center w-[52px] h-[52px]">
             <motion.span
-              className="absolute w-[50px] h-[50px] rounded-full bg-black"
+              className="absolute w-[50px] h-[50px] rounded-full"
+              style={{ backgroundColor: buttonColor }}
               variants={spanVariantBefore}
             />
             {/*BURGER*/}
@@ -62,6 +109,7 @@ const Header = () => {
               <motion.span
                 className="top-[0px] h-[1px] w-[27px] bg-black relative block"
                 variants={spanVariantBurger}
+                custom={isToggled}
                 animate={{
                   x: isToggled ? 29 : 0,
                   transition: { delay: 0.2, duration: 0.3, type: "easeOut" },
@@ -72,6 +120,7 @@ const Header = () => {
               <motion.span
                 className="top-[5px] h-[1px] w-[27px] bg-black relative block"
                 variants={spanVariantBurger}
+                custom={isToggled}
                 animate={{
                   x: isToggled ? 29 : 0,
                   transition: { duration: 0.3, type: "easeOut" },
@@ -106,30 +155,32 @@ const Header = () => {
               </motion.span>
             </span>
             <motion.span
-              className="absolute w-[50px] h-[50px] rounded-full border-black border-[1px]"
+              className="absolute w-[54px] h-[54px] rounded-full border-[1px]"
               variants={spanVariantAfter}
+              style={{ borderColor: buttonColor }}
             />
           </span>
           {/* TEXT */}
           <motion.span
             className="relative inline-flex flex-col h-5 overflow-hidden ml-4"
+            style={{ color: buttonColor }}
             variants={spanText}
           >
             <motion.span
-              className="font-medium text-[16px]"
+              className="font-medium text-[17px]"
               initial={{ y: 0 }}
               animate={{
-                y: isToggled ? -26 : 0,
+                y: isToggled ? -28 : 0,
                 transition: { duration: 0.2, type: "spring" },
               }}
             >
               Menu
             </motion.span>
             <motion.span
-              className="font-medium text-[16px]"
+              className="font-medium text-[17px]"
               initial={{ y: 0 }}
               animate={{
-                y: isToggled ? -26 : 0,
+                y: isToggled ? -28 : 0,
                 transition: { duration: 0.2, type: "spring" },
               }}
             >
@@ -153,7 +204,10 @@ const Header = () => {
                 alt="logo"
               />
             </motion.div>
-            <motion.p className="self-center text-2xl font-semibold whitespace-nowrap md:flex hidden font-mono ">
+            <motion.p
+              className="self-center text-2xl font-semibold text-[32px] whitespace-nowrap md:flex hidden font-mono"
+              style={{ color: "white" }}
+            >
               {getChars("ALYGARDEN")}
             </motion.p>
           </motion.div>
@@ -168,7 +222,7 @@ const Header = () => {
             </motion.span>
           </motion.div>
         </Link>
-      </nav>
+      </motion.nav>
     </motion.header>
   );
 };

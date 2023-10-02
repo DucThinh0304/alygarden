@@ -21,16 +21,14 @@ export const spanVariantAfter = {
   },
 };
 export const spanVariantBurger = {
-  inital: {
-    backgroundColor: "#000",
-  },
-  hover: { backgroundColor: "#fff" },
+  hover: (isToggled: boolean) => ({
+    backgroundColor: isToggled ? "#000" : "#fff",
+  }),
 };
 export const spanVariantCross = {
-  inital: {
-    backgroundColor: "#000",
-  },
-  hover: { backgroundColor: "#fff" },
+  hover: (isToggled: boolean) => ({
+    backgroundColor: isToggled ? "#000" : "#fff",
+  }),
 };
 export const spanText = {
   hover: { marginLeft: "20px" },
@@ -44,12 +42,12 @@ export const translate = {
     y: "25%",
     opacity: 0,
   },
-  enter: (i: any) => ({
+  enter: <T>(i: T[]) => ({
     y: 0,
     opacity: 1,
     transition: { duration: 1, ease: [0.76, 0, 0.24, 1], delay: i[0] },
   }),
-  exit: (i: any) => ({
+  exit: <T>(i: T[]) => ({
     y: "100%",
     opacity: 0,
     transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: i[1] },
