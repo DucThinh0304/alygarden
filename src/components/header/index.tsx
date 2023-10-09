@@ -7,6 +7,7 @@ import {
   useScroll,
   useTransform,
   useSpring,
+  AnimatePresence,
 } from "framer-motion";
 import {
   buttonVariant,
@@ -18,29 +19,28 @@ import {
   translate,
   buttonLogin,
   buttonLoginBorder,
-  buttonLoginText,
 } from "./anim";
 import "@radix-ui/themes/styles.css";
 import { useMediaQuery } from "react-responsive";
 import { useEffect, useState } from "react";
 
-type Props = {
+type MenuType = {
   menuIsActive: boolean;
   setMenuIsActive: (value: boolean) => void;
 };
 
-const Header = ({ menuIsActive, setMenuIsActive }: Props) => {
+const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
   //RESPONSIVE
-
   const [isDesktop, setIsDesktop] = useState(true);
   const desktop = useMediaQuery({ query: "(min-width: 768px)" });
-  useEffect(() => {
-    setIsDesktop(desktop);
-  }, [desktop]);
 
   // HOOK
   const [isToggled, toggle] = useCycle(false, true);
   const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    setIsDesktop(desktop);
+  }, [desktop]);
 
   const headerProgress = useTransform(
     scrollYProgress,
@@ -66,19 +66,19 @@ const Header = ({ menuIsActive, setMenuIsActive }: Props) => {
   const buttonColor = useTransform(
     smoothHeaderProgress,
     [0, 1],
-    ["#fff", "#000"]
+    isToggled ? ["#000", "#fff"] : ["#fff", "#000"]
   );
 
   const buttonCrossColor = useTransform(
     smoothHeaderProgress,
     [0, 1],
-    ["#fff", "#000"]
+    isToggled ? ["#fff", "#000"] : ["#000", "#fff"]
   );
 
   const buttonBurgerColor = useTransform(
     smoothHeaderProgress,
     [0, 1],
-    ["#fff", "#000"]
+    isToggled ? ["#fff", "#000"] : ["#000", "#fff"]
   );
 
   // FUNCTION
@@ -121,9 +121,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: Props) => {
           initial="initial"
           animate="animate"
           className="w-[135.2px] items-center inline-flex relative"
-          onClick={() => {
-            setMenuIsActive(!menuIsActive);
-          }}
+          onClick={() => setMenuIsActive(!menuIsActive)}
         >
           {/* CIRCLE */}
           <span className="inline-flex relative items-center w-[52px] h-[52px]">
@@ -195,6 +193,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: Props) => {
             />
           </span>
           {/* TEXT */}
+
           <motion.span
             className="relative inline-flex flex-col h-5 overflow-hidden ml-4"
             style={{ color: buttonColor }}
@@ -246,7 +245,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: Props) => {
             </motion.p>
           </motion.div>
         </Link>
-        {/* CONTROL */}
+        {/* LOGIN */}
         <motion.div
           className="flex"
           variants={buttonLogin}
@@ -267,7 +266,6 @@ const Header = ({ menuIsActive, setMenuIsActive }: Props) => {
                 className="absolute left-[14px] font-medium"
                 style={{ color: buttonColor }}
               >
-                {" "}
                 ĐĂNG NHẬP
               </motion.span>
             </motion.div>

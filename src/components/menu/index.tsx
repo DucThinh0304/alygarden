@@ -1,51 +1,33 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 const anim = {
-  initial: {
-    height: 0,
+  hidden: {
+    y: "-100vh",
   },
-  open: {
-    height: "100vh",
-  },
-  exit: {
-    height: 0,
-  },
-};
-
-const animText = {
-  initial: {
-    opacity: 0,
-  },
-  open: {
-    opacity: 100,
+  visible: {
+    y: "0",
   },
   exit: {
-    opacity: 0,
+    height: "-100vh",
   },
 };
 
-type Props = {
-  menuIsActive: boolean;
+type MenuType = {
+  setMenuIsActive: (value: boolean) => void;
 };
 
-const Menu = ({ menuIsActive }: Props) => {
+const Menu = ({ setMenuIsActive }: MenuType) => {
   return (
     <motion.div
-      className="w-[100vw - 43px] bg-yellow-50 h-[100vh] z-20"
+      className="w-full bg-yellow-50 h-[100vh] z-30 fixed"
       variants={anim}
-      initial="initial"
-      animate={menuIsActive ? "open" : "closed"}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
     >
-      <motion.div
-        initial="initial"
-        variants={animText}
-        animate={menuIsActive ? "open" : "closed"}
-      >
-        asdasdasdasdsad
-      </motion.div>
+      <button onClick={() => setMenuIsActive(false)}>aaaaa</button>
     </motion.div>
   );
 };

@@ -1,3 +1,5 @@
+const transition = { duration: 1, ease: [0.76, 0, 0.24, 1] };
+
 export const buttonVariant = {
   hover: {
     transition: { duration: 0.5, type: "spring" },
