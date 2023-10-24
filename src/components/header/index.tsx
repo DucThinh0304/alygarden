@@ -3,11 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   motion,
-  useCycle,
   useScroll,
   useTransform,
   useSpring,
-  AnimatePresence,
+  useMotionValue,
 } from "framer-motion";
 import {
   buttonVariant,
@@ -33,9 +32,8 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
   //RESPONSIVE
   const [isDesktop, setIsDesktop] = useState(true);
   const desktop = useMediaQuery({ query: "(min-width: 768px)" });
-
+  const x = useMotionValue(0.3);
   // HOOK
-  const [isToggled, toggle] = useCycle(false, true);
   const { scrollYProgress } = useScroll();
 
   useEffect(() => {
@@ -43,11 +41,13 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
   }, [desktop]);
 
   const headerProgress = useTransform(
-    scrollYProgress,
+    menuIsActive ? x : scrollYProgress,
     [0, 0.29, 0.3],
     isDesktop ? [0, 0, 1] : [1, 1, 1]
   );
+
   const smoothHeaderProgress = useSpring(headerProgress, { restSpeed: 1 });
+
   const headerPadding = useTransform(
     smoothHeaderProgress,
     [0, 1],
@@ -66,19 +66,19 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
   const buttonColor = useTransform(
     smoothHeaderProgress,
     [0, 1],
-    isToggled ? ["#000", "#fff"] : ["#fff", "#000"]
+    ["#fff", "#000"]
   );
 
   const buttonCrossColor = useTransform(
     smoothHeaderProgress,
     [0, 1],
-    isToggled ? ["#fff", "#000"] : ["#000", "#fff"]
+    ["#fff", "#000"]
   );
 
   const buttonBurgerColor = useTransform(
     smoothHeaderProgress,
     [0, 1],
-    isToggled ? ["#fff", "#000"] : ["#000", "#fff"]
+    ["#fff", "#000"]
   );
 
   // FUNCTION
@@ -104,7 +104,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
   //RENDER
   return (
     <motion.header
-      className="w-[calc(100%)] fixed bottom-0 h-[110px] md:top-0 z-10"
+      className="w-[calc(100%)] fixed bottom-0 h-[110px] md:top-0 z-30"
       style={{ padding: headerPadding }}
     >
       <motion.nav
@@ -133,12 +133,13 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
             {/*BURGER*/}
             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[27px] h-[7px] overflow-hidden">
               <motion.span
-                className="top-[0px] h-[1px] w-[27px]  relative block"
-                style={{ backgroundColor: buttonBurgerColor }}
+                className="top-[0px] h-[1px] w-[27px] relative block"
+                style={{
+                  backgroundColor: buttonBurgerColor,
+                }}
                 variants={spanVariantBurger}
-                custom={isToggled}
                 animate={{
-                  x: isToggled ? 29 : 0,
+                  x: menuIsActive ? 29 : 0,
                   transition: { delay: 0.2, duration: 0.3, type: "easeOut" },
                 }}
               >
@@ -147,10 +148,11 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
               <motion.span
                 className="top-[5px] h-[1px] w-[27px] relative block"
                 variants={spanVariantBurger}
-                style={{ backgroundColor: buttonBurgerColor }}
-                custom={isToggled}
+                style={{
+                  backgroundColor: buttonBurgerColor,
+                }}
                 animate={{
-                  x: isToggled ? 29 : 0,
+                  x: menuIsActive ? 29 : 0,
                   transition: { duration: 0.3, type: "easeOut" },
                 }}
               >
@@ -164,9 +166,8 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
                 variants={spanVariantCross}
                 style={{ backgroundColor: buttonCrossColor }}
                 initial={{ x: 29 }}
-                custom={isToggled}
                 animate={{
-                  x: isToggled ? 0 : 29,
+                  x: menuIsActive ? 0 : 29,
                   transition: { duration: 0.3, type: "easeOut" },
                 }}
               >
@@ -176,10 +177,9 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
                 className="w-[1px] h-[26px] left-1/2 -translate-x-1/2 relative block"
                 variants={spanVariantCross}
                 style={{ backgroundColor: buttonCrossColor }}
-                custom={isToggled}
                 initial={{ y: 29 }}
                 animate={{
-                  y: isToggled ? 0 : 29,
+                  y: menuIsActive ? 0 : 29,
                   transition: { duration: 0.3, type: "easeOut", delay: 0.2 },
                 }}
               >
@@ -203,7 +203,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
               className="font-medium text-[17px]"
               initial={{ y: 0 }}
               animate={{
-                y: isToggled ? -28 : 0,
+                y: menuIsActive ? -28 : 0,
                 transition: { duration: 0.2, type: "spring" },
               }}
             >
@@ -213,7 +213,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
               className="font-medium text-[17px]"
               initial={{ y: 0 }}
               animate={{
-                y: isToggled ? -28 : 0,
+                y: menuIsActive ? -28 : 0,
                 transition: { duration: 0.2, type: "spring" },
               }}
             >
@@ -228,6 +228,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
               className="md:flex hidden"
               variants={translate}
               initial="initialImage"
+              exit="exitImage"
               animate="enterImage"
             >
               <Image

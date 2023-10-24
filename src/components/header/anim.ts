@@ -23,14 +23,14 @@ export const spanVariantAfter = {
   },
 };
 export const spanVariantBurger = {
-  hover: (isToggled: boolean) => ({
-    backgroundColor: isToggled ? "#fff" : "#000",
-  }),
+  hover: {
+    filter: "invert(1)",
+  },
 };
 export const spanVariantCross = {
-  hover: (isToggled: boolean) => ({
-    backgroundColor: isToggled ? "#fff" : "#000",
-  }),
+  hover: {
+    filter: "invert(1)",
+  },
 };
 export const spanText = {
   hover: { marginLeft: "20px" },
@@ -57,6 +57,11 @@ export const translate = {
   enterImage: () => ({
     y: 0,
     opacity: 1,
+    transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
+  }),
+  exitImage: <T>(i: T[]) => ({
+    y: 1,
+    opacity: 0,
     transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
   }),
 };
