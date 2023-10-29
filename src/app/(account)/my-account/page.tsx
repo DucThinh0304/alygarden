@@ -4,7 +4,7 @@ import Menu from "@/components/menu";
 import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
-const index = () => {
+const page = () => {
   const [menuIsActive, setMenuIsActive] = useState(false);
   useEffect(() => {
     if (menuIsActive) {
@@ -18,8 +18,12 @@ const index = () => {
     };
   }, [menuIsActive]);
   return (
-    <div>
-      <Header menuIsActive={menuIsActive} setMenuIsActive={setMenuIsActive} />
+    <div className="h-fit">
+      <Header
+        menuIsActive={menuIsActive}
+        setMenuIsActive={setMenuIsActive}
+        title="TÀI KHOẢN"
+      />
       <AnimatePresence>
         {menuIsActive && <Menu setMenuIsActive={setMenuIsActive} />}
       </AnimatePresence>
@@ -27,4 +31,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default page;

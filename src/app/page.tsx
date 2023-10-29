@@ -23,20 +23,26 @@ export default function Home() {
   }, [menuIsActive]);
   return (
     <main className="h-fit">
-      <Header menuIsActive={menuIsActive} setMenuIsActive={setMenuIsActive} />
+      <Header
+        menuIsActive={menuIsActive}
+        setMenuIsActive={setMenuIsActive}
+        title="ALY GARDEN"
+      />
       <AnimatePresence>
         {menuIsActive && <Menu setMenuIsActive={setMenuIsActive} />}
       </AnimatePresence>
       <div className="z-10 flex flex-col relative">
         <div className="relative h-[100vh]">
           <Image
-            src="/nong-san-1.jpg"
+            src="/nong-san.png"
             fill
-            className="absolute"
             alt="Nông sản trên tay nông dân"
+            style={{
+              objectFit: "cover",
+            }}
           />
         </div>
-        <div className="flex items-center text-center font-semibold text-4xl flex-wrap bg-white py-10 px-[20%]  justify-center ">
+        <div className="flex items-center text-center font-semibold text-4xl flex-wrap bg-white py-10 px-[20%] justify-center">
           Cách dễ dàng nhất để người mua và người bán trao đổi hàng nông sản
           trực tuyến.
         </div>

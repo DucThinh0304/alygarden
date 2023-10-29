@@ -41,7 +41,6 @@ const Menu = ({ setMenuIsActive }: MenuType) => {
   const [isDesktop, setIsDesktop] = useState(true);
   const desktop = useMediaQuery({ query: "(min-width: 768px)" });
 
-  
   return (
     <motion.div
       className="w-full bg-white h-[100vh] z-20 fixed flex items-center"
@@ -54,7 +53,6 @@ const Menu = ({ setMenuIsActive }: MenuType) => {
       <div className="ml-[150px]">
         {AllUserMenu.map((menu) => (
           <div className="my-5" key={menu.title}>
-            {" "}
             <Link
               className="font-bold text-4xl"
               href={menu.href}

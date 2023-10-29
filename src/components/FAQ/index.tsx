@@ -15,8 +15,9 @@ const FAQComponent = () => {
     },
     {
       id: 2,
-      question: "What if I want a refund?",
-      answer: "Moonlamps.com does 100% refund if you are not satisfied",
+      question: "Việc mua hàng trên nền tảng của bạn hoạt động như thế nào?",
+      answer:
+        "Bạn có thể duyệt danh sách theo người bán, thêm mặt hàng vào giỏ hàng và thanh toán một cách an toàn. Chúng tôi tạo điều kiện thuận lợi cho các giao dịch và vận chuyển.",
     },
     {
       id: 3,
@@ -54,9 +55,9 @@ const FAQComponent = () => {
             >
               {q.question}
               {activeQuestion === q.id ? (
-                <FaMinusCircle className="text-xl text-primary" />
+                <FaMinusCircle className="text-black" size={20} />
               ) : (
-                <FaPlusCircle className="text-xl text-primary" />
+                <FaPlusCircle className="text-black" size={20} />
               )}
             </button>
             <AnimatePresence>

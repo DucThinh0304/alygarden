@@ -19,16 +19,16 @@ import {
   buttonLogin,
   buttonLoginBorder,
 } from "./anim";
-import "@radix-ui/themes/styles.css";
 import { useMediaQuery } from "react-responsive";
 import { useEffect, useState } from "react";
 
 type MenuType = {
   menuIsActive: boolean;
   setMenuIsActive: (value: boolean) => void;
+  title: string;
 };
 
-const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
+const Header = ({ menuIsActive, setMenuIsActive, title }: MenuType) => {
   //RESPONSIVE
   const [isDesktop, setIsDesktop] = useState(true);
   const desktop = useMediaQuery({ query: "(min-width: 768px)" });
@@ -84,7 +84,7 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
   // FUNCTION
   const getChars = (word: string) => {
     let chars: any[] = [];
-    word.split("").forEach((char, i) => {
+    word.split(",").forEach((char, i) => {
       chars.push(
         <motion.span
           custom={[i * 0.02, (word.length - i) * 0.01]}
@@ -239,32 +239,32 @@ const Header = ({ menuIsActive, setMenuIsActive }: MenuType) => {
               />
             </motion.div>
             <motion.p
-              className="self-center text-2xl font-semibold text-[32px] whitespace-nowrap font-mono"
+              className="self-center text-2xl font-semibold text-[32px] whitespace-nowrap sm:flex hidden"
               style={{ color: buttonColor }}
             >
-              {getChars("ALYGARDEN")}
+              {getChars(title)}
             </motion.p>
           </motion.div>
         </Link>
         {/* LOGIN */}
         <motion.div
-          className="flex"
+          className="flex items-center"
           variants={buttonLogin}
           whileHover="hoverButton"
         >
-          <Link href="/">
+          <Link href="./" className="inline-flex">
             <motion.div
               className="relative inline-flex items-center"
               variants={buttonLogin}
               whileHover="hoverButton"
             >
               <motion.span
-                className="w-[120px] h-[50px] rounded-md border-[1px]"
+                className="w-[100px] h-[40px] rounded-md border-[1px] sm:w-[120px] sm:h-[50px]"
                 style={{ borderColor: buttonColor }}
                 variants={buttonLoginBorder}
               ></motion.span>
               <motion.span
-                className="absolute left-[14px] font-medium"
+                className="absolute left-[9px] sm:left-[14px] font-medium text-sm sm:text-medium"
                 style={{ color: buttonColor }}
               >
                 ĐĂNG NHẬP
