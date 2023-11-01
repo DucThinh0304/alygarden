@@ -9,7 +9,7 @@ import { FaSnapchatSquare, FaPinterestSquare } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="border-t py-8">
+    <footer className="border-t py-8 snap-proximity">
       <div className="w-full">
         <div className="flex">
           <div className="w-full">

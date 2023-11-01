@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-const index = () => {
+const page = () => {
   const [menuIsActive, setMenuIsActive] = useState(false);
   useEffect(() => {
     if (menuIsActive) {
@@ -99,4 +99,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default page;

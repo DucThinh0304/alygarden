@@ -26,12 +26,12 @@ export default function Home() {
       <Header
         menuIsActive={menuIsActive}
         setMenuIsActive={setMenuIsActive}
-        title="ALY GARDEN"
+        title="ALYGARDEN"
       />
       <AnimatePresence>
         {menuIsActive && <Menu setMenuIsActive={setMenuIsActive} />}
       </AnimatePresence>
-      <div className="z-10 flex flex-col relative">
+      <section className="z-10 flex flex-col relative">
         <div className="relative h-[100vh]">
           <Image
             src="/nong-san.png"
@@ -42,13 +42,17 @@ export default function Home() {
             }}
           />
         </div>
-        <div className="flex items-center text-center font-semibold text-4xl flex-wrap bg-white py-10 px-[20%] justify-center">
+        <section className="flex items-center text-center font-semibold text-4xl flex-wrap bg-white py-10 px-[20%] justify-center">
           Cách dễ dàng nhất để người mua và người bán trao đổi hàng nông sản
           trực tuyến.
-        </div>
-        <ValueProposition />
-        <FAQComponent />
-      </div>
+        </section>
+        <section>
+          <ValueProposition />
+        </section>
+        <section>
+          <FAQComponent />
+        </section>
+      </section>
     </main>
   );
 }

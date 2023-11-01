@@ -43,57 +43,54 @@ const contentSeller = [
   },
 ];
 
-const arrow = {
-  hidden: {
-    pathLength: 0,
-    fill: "rgba(255, 255, 255, 0)",
-  },
-  visible: {
-    pathLength: 1,
-    fill: "rgba(29, 30, 82, 1)",
-  },
-};
-
 const Arrow = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   return (
     <motion.svg
+      ref={ref}
       width="105"
       height="24"
       viewBox="0 0 105 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="stroke-[#1d1e52]"
+      whileHover={{ x: "-2px" }}
     >
       <motion.path
         d="M105 12C105 7.58172 101.418 4 97 4C92.5817 4 89 7.58172 89 12C89 16.4183 92.5817 20 97 20C101.418 20 105 16.4183 105 12Z"
-        variants={arrow}
-        initial="hidden"
-        whileInView="visible"
+        initial={{ pathLength: 0, fill: "rgba(255, 255, 255, 0)" }}
+        animate={{
+          pathLength: isInView ? 1 : 0,
+          fill: isInView ? "rgba(29, 30, 82, 1)" : "rgba(255, 255, 255, 0)",
+        }}
         transition={{
-          default: { duration: 1, ease: "easeInOut" },
-          fill: { duration: 1, ease: [1, 0, 0.8, 1] },
+          duration: 1,
+          ease: "easeInOut",
         }}
       />
       <motion.path
         d="M0.93934 10.9393C0.353553 11.5251 0.353553 12.4749 0.93934 13.0607L10.4853 22.6066C11.0711 23.1924 12.0208 23.1924 12.6066 22.6066C13.1924 22.0208 13.1924 21.0711 12.6066 20.4853L4.12132 12L12.6066 3.51471C13.1924 2.92892 13.1924 1.97918 12.6066 1.39339C12.0208 0.807604 11.0711 0.807604 10.4853 1.39339L0.93934 10.9393Z"
-        variants={arrow}
-        initial="hidden"
-        animate="visible"
+        initial={{ pathLength: 0, fill: "rgba(255, 255, 255, 0)" }}
+        animate={{
+          pathLength: isInView ? 1 : 0,
+          fill: isInView ? "rgba(29, 30, 82, 1)" : "rgba(255, 255, 255, 0)",
+        }}
         transition={{
-          default: { duration: 1, ease: "easeInOut" },
-          fill: { duration: 1, ease: [1, 0, 0.8, 1] },
+          duration: 1,
+          ease: "easeInOut",
         }}
       />
       <motion.path
         d="M97 10.5L2 10.5L2 13.5L97 13.5L97 10.5Z"
-        variants={arrow}
-        initial="hidden"
-        animate="visible"
+        initial={{ pathLength: 0, fill: "rgba(255, 255, 255, 0)" }}
+        animate={{
+          pathLength: isInView ? 1 : 0,
+          fill: isInView ? "rgba(29, 30, 82, 1)" : "rgba(255, 255, 255, 0)",
+        }}
         transition={{
-          default: { duration: 1, ease: "easeInOut" },
-          fill: { duration: 1, ease: [1, 0, 0.8, 1] },
+          duration: 1,
+          ease: "easeInOut",
         }}
       />
     </motion.svg>
@@ -127,7 +124,9 @@ const ValueProposition = () => {
       </div>
       <div className="hidden flex-col items-center justify-center gap-5 lg:flex xl:scale-150 scale-95 w-[120px] xl:w-[170px] transition-all">
         <Arrow />
-        <Arrow />
+        <div className="rotate-180">
+          <Arrow />
+        </div>
       </div>
       {/* SELLER */}
       <div className="flex items-center justify-center">
@@ -146,9 +145,9 @@ const ValueProposition = () => {
               </div>
             </motion.div>
           ))}
-          <div className="bg-[#454698] p-4 rounded-full absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] scale-90 xl:scale-100 transition-all">
+          <motion.div className="bg-[#454698] p-4 rounded-full absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] scale-90 xl:scale-100 transition-all">
             <GiFarmer className="text-white" size={50} />
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

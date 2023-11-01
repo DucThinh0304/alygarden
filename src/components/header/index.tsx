@@ -84,7 +84,7 @@ const Header = ({ menuIsActive, setMenuIsActive, title }: MenuType) => {
   // FUNCTION
   const getChars = (word: string) => {
     let chars: any[] = [];
-    word.split(",").forEach((char, i) => {
+    word.split("").forEach((char, i) => {
       chars.push(
         <motion.span
           custom={[i * 0.02, (word.length - i) * 0.01]}
@@ -93,6 +93,7 @@ const Header = ({ menuIsActive, setMenuIsActive, title }: MenuType) => {
           animate="enter"
           exit="exit"
           key={char + i}
+          style={char === " " ? { marginLeft: "10px" } : { marginLeft: "0px" }}
         >
           {char}
         </motion.span>

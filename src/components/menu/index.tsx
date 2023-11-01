@@ -52,7 +52,7 @@ const Menu = ({ setMenuIsActive }: MenuType) => {
     >
       <div className="ml-[150px]">
         {AllUserMenu.map((menu) => (
-          <div className="my-5" key={menu.title}>
+          <motion.div className="my-5" key={menu.title}>
             <Link
               className="font-bold text-4xl"
               href={menu.href}
@@ -60,7 +60,7 @@ const Menu = ({ setMenuIsActive }: MenuType) => {
             >
               {menu.title}
             </Link>
-          </div>
+          </motion.div>
         ))}
       </div>
     </motion.div>

@@ -21,25 +21,26 @@ const FAQComponent = () => {
     },
     {
       id: 3,
-      question: "Can I just purchase the stand?",
+      question: "Nền tảng của bạn có mức phí bao nhiêu?",
       answer:
-        "Unfortunatley, we are only selling the bundle which includes the stand",
+        "Chúng tôi tính phí giao dịch cạnh tranh 8% để bạn giữ được 92% giá bán của mình.",
     },
     {
       id: 4,
-      question: "How can I track my order?",
-      answer: "You can go to your dashboard and view all of your orders",
+      question: "Phương thức thanh toán nào được chấp nhận?",
+      answer:
+        "Chúng tôi chấp nhận phương thức thanh toán như momo, các thẻ ngân hàng, paypal,...",
     },
     {
       id: 5,
-      question: "How many years does this lamp last?",
+      question: "Tôi có thể trả lại sản phẩm nếu không hài lòng?",
       answer:
-        "We would hope a lifetime, but you never know what could happen. ",
+        "Việc trả lại và hoàn tiền được xử lý trực tiếp giữa người mua và người bán. Vui lòng liên hệ với người bán.",
     },
   ];
 
   return (
-    <div id="faq" className="w-full py-5">
+    <div className="w-full py-5">
       <div className="bg-[#e0e1dd] p-8 rounded-lg shadow-md w-[89%] max-w-[1400px] m-auto">
         <h2 className="text-2xl mb-6 font-semibold">
           Những câu hỏi thường gặp
@@ -48,17 +49,19 @@ const FAQComponent = () => {
         {questions.map((q) => (
           <div key={q.id} className="mb-4 last:mb-0">
             <button
-              className="faq-question w-full text-left text-xl focus:outline-none p-4 bg-gray-100 rounded-lg shadow-md flex justify-between items-center"
+              className="w-full text-left text-xl focus:outline-none p-4 bg-gray-100 rounded-lg shadow-md flex justify-between items-center"
               onClick={() =>
                 setActiveQuestion(activeQuestion === q.id ? null : q.id)
               }
             >
               {q.question}
-              {activeQuestion === q.id ? (
-                <FaMinusCircle className="text-black" size={20} />
-              ) : (
-                <FaPlusCircle className="text-black" size={20} />
-              )}
+              <div>
+                {activeQuestion === q.id ? (
+                  <FaMinusCircle className="text-black" size={25} />
+                ) : (
+                  <FaPlusCircle className="text-black" size={25} />
+                )}
+              </div>
             </button>
             <AnimatePresence>
               {activeQuestion === q.id && (
@@ -68,7 +71,7 @@ const FAQComponent = () => {
                   exit={{ opacity: 0, height: 0 }}
                   className="mt-2 text-gray-600 ml-4"
                 >
-                  <p>{q.answer}</p>
+                  <p className="text-black text-xl">{q.answer}</p>
                 </motion.div>
               )}
             </AnimatePresence>
