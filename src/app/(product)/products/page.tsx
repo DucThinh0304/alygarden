@@ -1,20 +1,54 @@
 "use client";
+import { ProductsType } from "@/app/types/types";
 import ProductCard from "@/components/ProductCard";
 import Header from "@/components/header";
 import Menu from "@/components/menu";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
+  FaAngleLeft,
+  FaAngleRight,
+} from "react-icons/fa";
+import Pagenate from "@/components/pagenate/Pagenate";
 
-const page = () => {
+const ProductPage = async () => {
   const [menuIsActive, setMenuIsActive] = useState(false);
+  const [numberOfPage, setNumberOfPage] = useState(1);
+  const [products, setProducts] = useState<ProductsType>();
+  const searchParams = useSearchParams();
+  const cat = searchParams.get("cat") || "";
+  const page = searchParams.get("page") || "1";
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/api/products?cat=${cat}&page=${page}`,
+          {
+            cache: "no-store",
+          }
+        );
+        const data = await res.json();
+        setProducts(data.products);
+        setNumberOfPage(data.totalPages);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    makeRequest();
+  }, []);
+
   useEffect(() => {
     if (menuIsActive) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    // Clean up function
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -45,58 +79,56 @@ const page = () => {
           </div>
         </div>
         <div className="bg-white py-5 px-[100px] grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-4 justify-center items-center">
-          <ProductCard
-            image="/1100440.jpg"
-            name="Táo"
-            price={990000}
-            seller="Đức Thịnh"
-            rating={5}
-            href="./"
-          />
-          <ProductCard
-            image="/1100440.jpg"
-            name="Táo"
-            price={990000}
-            seller="Đức Thịnh"
-            rating={5}
-            href="./"
-          />
-          <ProductCard
-            image="/1100440.jpg"
-            name="Táo"
-            price={990000}
-            seller="Đức Thịnh"
-            rating={5}
-            href="./"
-          />
-          <ProductCard
-            image="/1100440.jpg"
-            name="Táo"
-            price={990000}
-            seller="Đức Thịnh"
-            rating={5}
-            href="./"
-          />
-          <ProductCard
-            image="/1100440.jpg"
-            name="Táo"
-            price={990000}
-            seller="Đức Thịnh"
-            rating={5}
-            href="./"
-          />
-          <ProductCard
-            image="/1100440.jpg"
-            name="Táo"
-            price={990000}
-            seller="Đức Thịnh"
-            rating={5}
-            href="./"
-          />
+          {products &&
+            products.map((product) => (
+              <Link href={`products/${product.id}`} key={product.id}>
+                <ProductCard
+                  key={product.id}
+                  description={product.desc}
+                  image={product.img ? `./${product.img}` : "a"}
+                  name={product.title}
+                  price={product.price}
+                  seller="Đức Thịnh"
+                  rating={5}
+                  href=""
+                />
+              </Link>
+            ))}
         </div>
+      </div>
+      <div className="flex justify-center items-center gap-4 mt-5 p-10">
+        <Link href={`/products`}>
+          <button
+            className="border-2 px-5 py-2 hover:bg-black hover:text-white rounded-md  disabled:bg-[#ccc] disabled:text-white"
+            disabled={+page === 1}
+          >
+            <FaAngleDoubleLeft />
+          </button>
+        </Link>
+        <Link href={`/products?cat=${cat}&page=${+page - 1}`}>
+          <button
+            className="border-2 px-5 py-2 hover:bg-black hover:text-white rounded-md disabled:bg-[#ccc] disabled:text-white"
+            disabled={+page === 1}
+          >
+            <FaAngleLeft />
+          </button>
+        </Link>
+        <Pagenate cat={cat} page={+page} numberOfPage={numberOfPage}></Pagenate>
+        <button
+          className="border-2 px-5 py-2 hover:bg-black hover:text-white rounded-md  disabled:bg-[#ccc] disabled:text-white"
+          disabled={+page === numberOfPage}
+        >
+          <FaAngleRight />
+        </button>
+        <button
+          className="border-2  px-5 py-2 hover:bg-black hover:text-white rounded-md  disabled:bg-[#ccc] disabled:text-white"
+          disabled={+page === numberOfPage}
+        >
+          <FaAngleDoubleRight />
+        </button>
       </div>
     </div>
   );
 };
 
-export default page;
+export default ProductPage;

@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="w-full">
             <div className="flex flex-col items-center justify-center">
               <Image
-                src="./alygarden-icon.svg"
+                src="/alygarden-icon.svg"
                 width={200}
                 height={200}
                 alt="moon lamp"

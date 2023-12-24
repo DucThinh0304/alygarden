@@ -2,9 +2,18 @@
 import Header from "@/components/header";
 import Menu from "@/components/menu";
 import { AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const page = () => {
+const MyAccountPage = () => {
+  //NAVIGATION
+  const { status } = useSession();
+  const router = useRouter();
+  if (status === "unauthenticated") {
+    router.push("/login");
+  }
+  //MENU
   const [menuIsActive, setMenuIsActive] = useState(false);
   useEffect(() => {
     if (menuIsActive) {
@@ -17,6 +26,7 @@ const page = () => {
       document.body.style.overflow = "auto";
     };
   }, [menuIsActive]);
+
   return (
     <div className="h-fit">
       <Header
@@ -31,4 +41,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default MyAccountPage;

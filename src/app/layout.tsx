@@ -2,7 +2,9 @@ import Footer from "@/components/footer";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Providers } from "./providers";
+import { Providers } from "../providers/NextUIProvider";
+import AuthProvider from "@/providers/AuthProvider";
+import QueryProvider from "@/components/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
-        <Footer />
+        <AuthProvider>
+          <QueryProvider>
+            <Providers>{children}</Providers>
+            <Footer />
+          </QueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );

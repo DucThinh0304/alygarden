@@ -65,20 +65,3 @@ export const translate = {
     transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
   }),
 };
-
-export const buttonLogin = {
-  hoverButton: {},
-};
-
-export const buttonLoginBorder = {
-  hoverButton: {
-    backgroundColor: "#ffaf40",
-    transition: { duration: 0.2, ease: [0.76, 0, 0.24, 1] },
-  },
-};
-
-export const buttonLoginText = {
-  hoverButton: {
-    transition: { duration: 0.2, ease: [0.76, 0, 0.24, 1] },
-  },
-};

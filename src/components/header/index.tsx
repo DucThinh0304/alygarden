@@ -16,11 +16,10 @@ import {
   spanVariantCross,
   spanText,
   translate,
-  buttonLogin,
-  buttonLoginBorder,
 } from "./anim";
 import { useMediaQuery } from "react-responsive";
 import { useEffect, useState } from "react";
+import UserLinks from "../UserLinks";
 
 type MenuType = {
   menuIsActive: boolean;
@@ -80,27 +79,6 @@ const Header = ({ menuIsActive, setMenuIsActive, title }: MenuType) => {
     [0, 1],
     ["#fff", "#000"]
   );
-
-  // FUNCTION
-  const getChars = (word: string) => {
-    let chars: any[] = [];
-    word.split("").forEach((char, i) => {
-      chars.push(
-        <motion.span
-          custom={[i * 0.02, (word.length - i) * 0.01]}
-          variants={translate}
-          initial="initial"
-          animate="enter"
-          exit="exit"
-          key={char + i}
-          style={char === " " ? { marginLeft: "10px" } : { marginLeft: "0px" }}
-        >
-          {char}
-        </motion.span>
-      );
-    });
-    return chars;
-  };
 
   //RENDER
   return (
@@ -225,54 +203,24 @@ const Header = ({ menuIsActive, setMenuIsActive, title }: MenuType) => {
         {/* LOGO */}
         <Link href="/" className="items-center">
           <motion.div className="flex">
-            <motion.div
-              className="md:flex hidden"
-              variants={translate}
-              initial="initialImage"
-              exit="exitImage"
-              animate="enterImage"
-            >
+            <div className="md:flex hidden">
               <Image
-                src="./alygarden-icon.svg"
+                src="/alygarden-icon.svg"
                 height={70}
                 width={70}
                 alt="logo"
               />
-            </motion.div>
+            </div>
             <motion.p
               className="self-center text-2xl font-semibold text-[32px] whitespace-nowrap sm:flex hidden"
               style={{ color: buttonColor }}
             >
-              {getChars(title)}
+              {title}
             </motion.p>
           </motion.div>
         </Link>
         {/* LOGIN */}
-        <motion.div
-          className="flex items-center"
-          variants={buttonLogin}
-          whileHover="hoverButton"
-        >
-          <Link href="./" className="inline-flex">
-            <motion.div
-              className="relative inline-flex items-center"
-              variants={buttonLogin}
-              whileHover="hoverButton"
-            >
-              <motion.span
-                className="w-[100px] h-[40px] rounded-md border-[1px] sm:w-[120px] sm:h-[50px]"
-                style={{ borderColor: buttonColor }}
-                variants={buttonLoginBorder}
-              ></motion.span>
-              <motion.span
-                className="absolute left-[9px] sm:left-[14px] font-medium text-sm sm:text-medium"
-                style={{ color: buttonColor }}
-              >
-                ĐĂNG NHẬP
-              </motion.span>
-            </motion.div>
-          </Link>
-        </motion.div>
+        <UserLinks buttonColor={buttonColor} />
       </motion.nav>
     </motion.header>
   );

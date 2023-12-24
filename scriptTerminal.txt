@@ -1,0 +1,4 @@
+cd src/docker
+docker compose up
+npx prisma migrate dev
+npx prisma studio

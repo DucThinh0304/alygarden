@@ -43,7 +43,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          user_type
+  role          user_type @default(seller)
   accounts      Account[]
   sessions      Session[]
   Order         Order[]
@@ -73,23 +73,24 @@ model Product {
   title      String
   desc       String
   img        String?
-  price      BigInt
+  price      Int
   star       Decimal
   isFeatured Boolean  @default(false)
-  options    Json[]
+  options    String[]
   category   Category @relation(fields: [catSlug], references: [slug])
   catSlug    String
 }
 
 model Order {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  price     BigInt
-  products  Json[]
-  status    String
-  intent_id String?  @unique
-  user      User     @relation(fields: [userEmail], references: [email])
-  userEmail String
+  id             String        @id @default(cuid())
+  createdAt      DateTime      @default(now())
+  price          Int
+  products       Json[]
+  status         String
+  intent_id      String?       @unique
+  user           User          @relation(fields: [userEmail], references: [email])
+  userEmail      String
+  shippingOption shipping_type @default(pallet)
 }
 
 enum user_type {
@@ -97,4 +98,13 @@ enum user_type {
   admin
   buyer
   seller
+}
+
+enum shipping_type {
+  pallet
+  freezeTruck
+  containerTruck
+  flatbedTruck
+  air
+  rail
 }
